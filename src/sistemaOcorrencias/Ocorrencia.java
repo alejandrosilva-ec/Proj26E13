@@ -28,7 +28,7 @@ public class Ocorrencia {
 	 * @param prazo is the estimated date for this problem to be solved	
 	 */
 	
-	
+	//Constructor ocorrencia
 	public Ocorrencia(String codigo, String titulo, String descricao, String prioridade, String estado,
 			String localizacao, String departamento, int prazo) {
 		
