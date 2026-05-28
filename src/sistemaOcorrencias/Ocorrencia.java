@@ -135,6 +135,11 @@ public class Ocorrencia {
 	}
 	
 	
+	public void printOcorrencia() {
+		System.out.println("\nCodigo: " + codigo + "\nTitulo: " + titulo + "\nDescrição: " + descricao + "\nPrioridade: " + prioridade + "\nEstado: " + estado + "\nLocalização: " + localizacao + "\nPrioridade: " + prioridade + "\nPrazo: " + dataLimite);
+	}
+	
+	
 	
 	
 	

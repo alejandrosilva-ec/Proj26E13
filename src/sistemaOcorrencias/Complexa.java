@@ -58,6 +58,14 @@ public class Complexa extends Ocorrencia {
 		this.tamanho = tamanho;
 	}
 	
+	@Override
+	
+	public void printOcorrencia() {
+		super.printOcorrencia();
+		System.out.print("Link: " + link + "\nTamanho: " + tamanho + "MB\n");
+	}
+	
+	
 	
 	
 	
