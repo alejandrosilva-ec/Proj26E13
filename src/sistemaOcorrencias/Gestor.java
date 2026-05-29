@@ -1,6 +1,4 @@
-/**
- * 
- */
+
 package sistemaOcorrencias;
 
 /**
@@ -101,7 +99,9 @@ public class Gestor {
 	 *
 	 * @return a Ocorrencia criada
 	 */
-	private Ocorrencia newOcorrencia(String titulo, String descricao, String prioridade,
+
+	public Ocorrencia newOcorrencia(String titulo, String descricao, String prioridade,
+//>>>>>>> branch 'master' of git@github.com:alejandrosilva-ec/SistemaDeOcorrenciasUPT.git
 			String localizacao, String departamento) {
  
 		String codigo = gerarCodigo();
@@ -130,7 +130,8 @@ public class Gestor {
 	 *
 	 * @return a Complexa criada
 	 */
-	private Complexa newComplexa(String titulo, String descricao, String prioridade,
+
+	public Complexa newComplexa(String titulo, String descricao, String prioridade,
 			String localizacao, String departamento, String link, int tamanho) {
  
 		String codigo = gerarCodigo();
@@ -163,9 +164,10 @@ public class Gestor {
 	private String gerarCodigo() {
 		return String.format("OC-%03d", contadorCodigo);
 	}
- 
+
 	/**
-	 * Normaliza o texto da prioridade para o formato padrão do sistema.
+	 * Padroniza o texto da prioridade para o formato padrão do sistema.
+>>>>>>> branch 'master' of git@github.com:alejandrosilva-ec/SistemaDeOcorrenciasUPT.git
 	 * Aceita variações de maiúsculas/minúsculas.
 	 *
 	 * @param prioridade o texto introduzido pelo utilizador
@@ -194,6 +196,24 @@ public class Gestor {
 			default:     return 5; // Baixa
 		}
 	}
- 
+
+	
+	public Ocorrencia procurarOcorrencia(String codigo) {
+		for(Ocorrencia i : ocorrencias) {
+			if(i.getCodigo().equals(codigo)) {
+				return i;
+			}
+		}
+		return null;
+	}
+	
+	public void visualizarOcorrencias(String estado) {
+		for(Ocorrencia o : ocorrencias) {
+			if(o.getEstado().equalsIgnoreCase(estado)) {
+				System.out.println(o);
+			}
+		}
+	}
+	
 }
 	
