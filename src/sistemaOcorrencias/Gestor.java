@@ -203,6 +203,7 @@ public class Gestor {
 		return null;
 	}
 	
+	
 	public void visualizarOcorrencias(String estado) {
 		for(Ocorrencia o : ocorrencias) {
 			if(o.getEstado().equalsIgnoreCase(estado)) {
