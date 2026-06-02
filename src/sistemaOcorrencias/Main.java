@@ -12,7 +12,6 @@ public class Main {
 		System.out.println("         SISTEMA DE OCORRENCIAS       ");
 		System.out.println("======================================");
 		
-		
 	}
 	
 	static Scanner scanner = new Scanner(System.in);
