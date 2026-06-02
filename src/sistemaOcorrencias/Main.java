@@ -1,4 +1,5 @@
 
+
 package sistemaOcorrencias;
 
 import java.util.Scanner;
@@ -96,8 +97,21 @@ public class Main {
 				String prioridade = scanner.nextLine();
 				
 				
-				System.out.print("Departamento:");
-				String departamento = scanner.nextLine();
+				System.out.println("Departamento:");
+				System.out.println("1 - Departamento de TI");
+				System.out.println("2 - Secretaria");
+				System.out.println("3 - Equipe de limpeza");
+				System.out.println("4 - Segurança");
+				System.out.print("Opção:");
+				int opcaoDept = scanner.nextInt();
+				scanner.nextLine();
+				
+				String departamento;
+				switch(opcaoDept) {
+				case 1: departamento = "Departamento de TI"; break;
+				case 2: departamento = "Secretaria"; break;
+				case 3: departamento = "Equipe de limpeza"; break;
+				case 4: departamento = "Segurança"; break;
 				
 				
 				if(prioridade.equalsIgnoreCase("Baixa")) {
@@ -170,4 +184,4 @@ public class Main {
 				interfaceSistema();
 				menu(ocorrencias);
 			}
-}
+			
