@@ -81,19 +81,35 @@ public class Main {
 					continue;
 				}
 				
-				System.out.print("\tTitulo:");
+				System.out.print("Titulo:");
 				String titulo = scanner.nextLine();
 				
-				System.out.print("\tDescrição:");
+				System.out.print("Descrição:");
 				String descricao = scanner.nextLine();
 				
-				System.out.print("\tPrioridade:");
+				System.out.print("Prioridade:");
 				String prioridade = scanner.nextLine();
 				
 				
-				System.out.print("\tDepartamento:");
-				String departamento = scanner.nextLine();
+				System.out.println("Departamento:");
+				System.out.println("1 - Departamento de TI");
+				System.out.println("2 - Secretaria");
+				System.out.println("3 - Equipe de limpeza");
+				System.out.println("4 - Segurança");
+				System.out.print("Opção:");
+				int opcaoDept = scanner.nextInt();
+				scanner.nextLine();
 				
+				String departamento;
+				switch(opcaoDept) {
+				case 1: departamento = "Departamento de TI"; break;
+				case 2: departamento = "Secretaria"; break;
+				case 3: departamento = "Equipe de limpeza"; break;
+				case 4: departamento = "Segurança"; break;
+				default:
+					System.out.println("Opção inválida.");
+					continue;
+			}
 				
 				if(prioridade.equalsIgnoreCase("Baixa")) {
 				
@@ -103,10 +119,10 @@ public class Main {
 				    break;
 				}else if(prioridade.equalsIgnoreCase("Alta")) {
 					
-					System.out.print("\tLink:");
+					System.out.print("Link:");
 					String link = scanner.nextLine();
 					
-					System.out.print("\tTamanho:");
+					System.out.print("Tamanho:");
 					int tamanho = scanner.nextInt();
 					scanner.nextLine();
 					

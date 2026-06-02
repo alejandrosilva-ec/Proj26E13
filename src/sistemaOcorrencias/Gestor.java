@@ -118,7 +118,7 @@ public class Gestor {
 		ocorrencias.add(oc);
 		contadorCodigo++;
  
-		System.out.println("[OK] Ocorrência registada! Código: " + codigo + " | Tipo: Normal | Prazo: " + prazo + " dia(s).");
+		System.out.println("[OK] Ocorrência registada! Código: " + codigo + " | Tipo: Normal | Departamento: " + departamento + "| Prazo: " + prazo + " dia(s).");
 		return oc;
 	}
  
@@ -149,7 +149,7 @@ public class Gestor {
 		ocorrencias.add(oc);
 		contadorCodigo++;
  
-		System.out.println("[OK] Ocorrência registada! Código: " + codigo + " | Tipo: Complexa | Prazo: " + prazo + " dia(s).");
+		System.out.println("[OK] Ocorrência registada! Código: " + codigo + " | Tipo: Complexa | Departamento:" + departamento + " | Prazo: " + prazo + " dia(s).");
 		return oc;
 	}
  
