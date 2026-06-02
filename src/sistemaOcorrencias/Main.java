@@ -1,6 +1,3 @@
-/**
- * This class contains the menu for the first version of the program
- */
 
 package sistemaOcorrencias;
 
@@ -28,7 +25,7 @@ public class Main {
 			System.out.println("\n ---Menu---");
 			System.out.println("1 - Registrar ocorrência");
 			System.out.println("2 - Procurar ocorrência");
-			System.out.println("3 - Visualizar por estado");
+			System.out.println("3 - Listar pendentes (Abertas + Em Atraso)");
 			
 			opcao=scanner.nextInt();
 			scanner.nextLine();
@@ -41,6 +38,7 @@ public class Main {
 				System.out.println("1-Sala");
 				System.out.println("2-Cantina");
 				System.out.println("3-Parque de estacionamento");
+				System.out.println("4-Biblioteca");
 				
 				System.out.print("Opção:");
 				int opcaoLocal = scanner.nextInt();
@@ -75,6 +73,13 @@ public class Main {
 					
 					break;
 					
+				case 4:
+					
+					localizacao = new Local("Biblioteca", "");
+					localString = localizacao.toString();
+					
+					break;
+					
 				default:
 					
 					System.out.println("Opção inválida.");
@@ -91,25 +96,9 @@ public class Main {
 				String prioridade = scanner.nextLine();
 				
 				
-				System.out.println("Departamento:");
-				System.out.println("1 - Departamento de TI");
-				System.out.println("2 - Secretaria");
-				System.out.println("3 - Equipe de limpeza");
-				System.out.println("4 - Segurança");
-				System.out.print("Opção:");
-				int opcaoDept = scanner.nextInt();
-				scanner.nextLine();
+				System.out.print("Departamento:");
+				String departamento = scanner.nextLine();
 				
-				String departamento;
-				switch(opcaoDept) {
-				case 1: departamento = "Departamento de TI"; break;
-				case 2: departamento = "Secretaria"; break;
-				case 3: departamento = "Equipe de limpeza"; break;
-				case 4: departamento = "Segurança"; break;
-				default:
-					System.out.println("Opção inválida.");
-					continue;
-			}
 				
 				if(prioridade.equalsIgnoreCase("Baixa")) {
 				
@@ -163,17 +152,15 @@ public class Main {
 				
 			case 3:
 				
-				System.out.print("Estado:");
-				String est = scanner.nextLine();
-				
-				gestor.visualizarOcorrencias(est);
+				ocorrencias.listarPendentes();
 				break;
 				
 				default:
 					System.out.print("Opção inválida.");
 					
 					}
-			
+				
+					
 				}while(opcao !=0);
 			}
 		
@@ -182,7 +169,5 @@ public class Main {
 				Gestor ocorrencias = new Gestor();
 				interfaceSistema();
 				menu(ocorrencias);
-		
-				
-	}
+			}
 }
