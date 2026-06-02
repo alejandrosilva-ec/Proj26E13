@@ -113,6 +113,11 @@ public class Main {
 				case 3: departamento = "Equipe de limpeza"; break;
 				case 4: departamento = "Segurança"; break;
 				
+				default:
+					System.out.println("Opção inválida.");
+					continue;
+			}
+				
 				
 				if(prioridade.equalsIgnoreCase("Baixa")) {
 				
@@ -184,4 +189,5 @@ public class Main {
 				interfaceSistema();
 				menu(ocorrencias);
 			}
+	}
 			
