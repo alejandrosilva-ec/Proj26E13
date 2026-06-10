@@ -27,6 +27,9 @@ public class Main {
 			System.out.println("1 - Registrar ocorrência");
 			System.out.println("2 - Procurar ocorrência");
 			System.out.println("3 - Listar pendentes (Abertas + Em Atraso)");
+			System.out.println("4 - Filtrar / Imprimir por estado");
+			System.out.println("0 - Sair");
+			System.out.println("\nEscolha uma opção (Inserir só o número): ");
 			
 			opcao=scanner.nextInt();
 			scanner.nextLine();
@@ -35,7 +38,7 @@ public class Main {
 			
 				case 1:
 					
-				System.out.println("Escolha o local da sua ocorrencia:");
+				System.out.println("Escolha o local da sua ocorrencia: ");
 
 				Local localizacao = gestorLocais.addLocalizacao(scanner);
 
@@ -44,16 +47,16 @@ public class Main {
 				String localString = localizacao.toString();
 				
 				
-				System.out.print("Titulo:");
+				System.out.print("Titulo: ");
 				String titulo = scanner.nextLine();
 				
-				System.out.print("Descrição:");
+				System.out.print("Descrição: ");
 				String descricao = scanner.nextLine();
 				
-				System.out.print("Prioridade:");
+				System.out.print("Prioridade: ");
 				String prioridade = scanner.nextLine();
 				
-				System.out.println("Departamento:");
+				System.out.println("Departamento: ");
 				System.out.println("1 - Departamento de TI");
 				System.out.println("2 - Secretaria");
 				System.out.println("3 - Equipe de limpeza");
@@ -62,48 +65,33 @@ public class Main {
 				int opcaoDept = scanner.nextInt();
 				scanner.nextLine();
 				
-
-				System.out.println("Departamento:");
-				System.out.println("1 - Departamento de TI");
-				System.out.println("2 - Secretaria");
-				System.out.println("3 - Equipe de limpeza");
-				System.out.println("4 - Segurança");
-				System.out.print("Opção:");
-				opcaoDept = scanner.nextInt();
-				scanner.nextLine();
 				
 				String departamento;
 				switch(opcaoDept) {
-				case 1: departamento = "Departamento de TI"; break;
-				case 2: departamento = "Secretaria"; break;
-				case 3: departamento = "Equipe de limpeza"; break;
-				case 4: departamento = "Segurança"; break;
+				case 1:
+					departamento = "Departamento de TI";
+					usePrioridade(prioridade, ocorrencias, titulo, descricao, localString, departamento);
+					break;
+				case 2:
+					departamento = "Secretaria";
+					usePrioridade(prioridade, ocorrencias, titulo, descricao, localString, departamento);
+					break;
+				case 3:
+					departamento = "Equipe de limpeza";
+					usePrioridade(prioridade, ocorrencias, titulo, descricao, localString, departamento);
+					break;
+				case 4:
+					departamento = "Segurança";
+					usePrioridade(prioridade, ocorrencias, titulo, descricao, localString, departamento);
+					break;
 				default:
 					System.out.println("Opção inválida.");
 					continue;
 				}
 
-				
-				
-				if(prioridade.equalsIgnoreCase("Baixa")) {
-				
-				    ocorrencias.newOcorrencia(titulo,descricao,prioridade,localString,departamento);
-				
-				    System.out.print("Ocorrencia registrada");
-				    break;
-				}else if(prioridade.equalsIgnoreCase("Alta")) {
-					
-					System.out.print("Link:");
-					String link = scanner.nextLine();
-					
-					System.out.print("Tamanho:");
-					int tamanho = scanner.nextInt();
-					scanner.nextLine();
-					
-					ocorrencias.newComplexa(titulo,descricao,prioridade,localString,departamento,link,tamanho);
-					break;
-				}
-				
+				// Depois de registar conforme prioridade, volta ao menu
+				break;
+
 			case 2:
 				
 				/*System.out.print("Código a procurar:");
@@ -119,7 +107,7 @@ public class Main {
 				}
 				break;*/
 				
-				System.out.print("Código a procurar:");
+				System.out.print("Código a procurar: ");
 				String cod = scanner.nextLine();
 				Boolean encontrado = false;
 				
@@ -134,14 +122,28 @@ public class Main {
 					System.out.println("A ocorrência com o código " + cod + " não existe!");
 				}
 				break;
-				
+
 			case 3:
-				
+				// Listar pendentes (Aberta + Em Atraso)
 				ocorrencias.listarPendentes();
 				break;
 				
-				default:
-					System.out.print("Opção inválida.");
+			case 4:
+				
+			    System.out.println("Escolha o filtro:");
+			    System.out.println("1 - Abertas");
+			    System.out.println("2 - Em atraso");
+			    System.out.println("3 - Mostrar todas");
+			    int opFiltro = scanner.nextInt();
+			    scanner.nextLine();
+
+				switch(opFiltro) {
+				    case 1: ocorrencias.imprimirPorFiltro("Aberta"); break;
+				    case 2: ocorrencias.imprimirPorFiltro("Em atraso"); break;
+				    case 3: ocorrencias.imprimirPorFiltro("Todas"); break;
+				    default: System.out.println("Opção inválida.");
+				}
+			    break;
 					
 					}
 			
@@ -154,6 +156,28 @@ public class Main {
 			Gestor ocorrencias = new Gestor();
 			interfaceSistema();
 			menu(ocorrencias);
+		}
+		
+		public static void usePrioridade(String prioridade, Gestor ocorrencias, String titulo, String descricao, String localString, String departamento) {
+			if(prioridade.equalsIgnoreCase("Baixa")) {
+				
+			    ocorrencias.newOcorrencia(titulo,descricao,prioridade,localString,departamento);
+			
+			    System.out.print("Ocorrencia registrada");
+			    return;
+			}else if(prioridade.equalsIgnoreCase("Alta")) {
+				
+				System.out.print("Link: ");
+				String link = scanner.nextLine();
+				
+				System.out.print("Tamanho: ");
+				int tamanho = scanner.nextInt();
+				scanner.nextLine();
+				
+				ocorrencias.newComplexa(titulo,descricao,prioridade,localString,departamento,link,tamanho);
+				return;
+			}
+			
 		}
 	}
 		

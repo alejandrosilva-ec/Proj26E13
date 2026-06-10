@@ -164,9 +164,8 @@ public class Gestor {
 	}
 
 	/**
-	 * Padroniza o texto da prioridade para o formato padrão do sistema.
->>>>>>> branch 'master' of git@github.com:alejandrosilva-ec/SistemaDeOcorrenciasUPT.git
-	 * Aceita variações de maiúsculas/minúsculas.
+				 * Padroniza o texto da prioridade para o formato padrão do sistema.
+				 * Aceita variações de maiúsculas/minúsculas.
 	 *
 	 * @param prioridade o texto introduzido pelo utilizador
 	 * @return "Alta" ou "Baixa", ou null se inválido
@@ -235,8 +234,8 @@ public class Gestor {
 		java.time.LocalDate hoje = java.time.LocalDate.now();
 		for (Ocorrencia o : ocorrencias) {
 			if (o.getEstado().equalsIgnoreCase("Aberta") && o.getDataLimite().isBefore(hoje)) {
-			o.setEstado("Em atraso.");
-			System.out.println("[AVISO] Ocorrência " + o.getCodigo() + " passou para \"Em Atraso\" (prazo: " + o.getDataLimite() + ").");
+				o.setEstado("Em atraso");
+				System.out.println("[AVISO] Ocorrência " + o.getCodigo() + " passou para \"Em atraso\" (prazo: " + o.getDataLimite() + ").");
 			}
 		}
 		
@@ -245,7 +244,7 @@ public class Gestor {
 		
 		//adicionar e separar na lista de abertas e fechadas
 		for (Ocorrencia o : ocorrencias) {
-			if (o.getEstado().equalsIgnoreCase("Em Atraso")) {
+			if (o.getEstado().equalsIgnoreCase("Em atraso")) {
 				emAtraso.add(o);
 			} else if (o.getEstado().equalsIgnoreCase("Aberta")) {
 				abertas.add(o);
@@ -288,5 +287,37 @@ public class Gestor {
 				+ "  |  Abertas: " + abertas.size());
 		System.out.println("==========================================\n");
 	  }
+	
+	/**
+	 * Lista ocorrências filtradas por estado.
+	 * @param filtro "Aberta", "Em atraso", ou "Todas"
+	 */
+	public void imprimirPorFiltro(String filtro) {
+	    // Primeiro, garantimos que o status "Em atraso" está atualizado
+	    java.time.LocalDate hoje = java.time.LocalDate.now();
+	    for (Ocorrencia o : ocorrencias) {
+	        if (o.getEstado().equalsIgnoreCase("Aberta") && o.getDataLimite().isBefore(hoje)) {
+	            o.setEstado("Em atraso");
+	        }
+	    }
+
+	    System.out.println("\n--- Filtrando por: " + filtro + " ---");
+	    boolean encontrou = false;
+
+	    for (Ocorrencia o : ocorrencias) {
+	        // Se o filtro for "Todas", mostra tudo. Senão, compara o estado.
+	        if (filtro.equalsIgnoreCase("Todas") || o.getEstado().equalsIgnoreCase(filtro)) {
+	            o.printOcorrencia();
+	            System.out.println("--------------------------");
+	            encontrou = true;
+	        }
+	    }
+
+	    if (!encontrou) {
+	        System.out.println("Nenhuma ocorrência encontrada com o filtro: " + filtro);
+	    }
+	}
+	
+	
 
 	}
