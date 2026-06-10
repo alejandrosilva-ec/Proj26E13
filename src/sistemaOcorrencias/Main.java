@@ -1,8 +1,7 @@
-
-
 package sistemaOcorrencias;
 
 import java.util.Scanner;
+import java.util.ArrayList;
 
 public class Main {
 
@@ -17,20 +16,22 @@ public class Main {
 	static Scanner scanner = new Scanner(System.in);
 	static Gestor gestor = new Gestor();
 	static GestorLocais gestorLocais = new GestorLocais();
+	static ArrayList<Utilizador> utilizadores = new ArrayList<>();
 	
-	public static void menu(Gestor ocorrencias) {
+	
+	public static void menuInicial(Gestor ocorrencias) {
 		
 		int opcao;
 		
 		do {
 			System.out.println("\n ---Menu---");
-			System.out.println("1 - Registrar ocorrência");
-			System.out.println("2 - Procurar ocorrência");
-			System.out.println("3 - Listar pendentes (Abertas + Em Atraso)");
-			System.out.println("4 - Filtrar / Imprimir por estado");
+			System.out.println("1 - Utilizador");
+			System.out.println("2 - Administrador");
+			System.out.println("3 - Registrar Conta");
 			System.out.println("0 - Sair");
-			System.out.println("\nEscolha uma opção (Inserir só o número): ");
 			
+			System.out.print("Opção: ");
+
 			opcao=scanner.nextInt();
 			scanner.nextLine();
 			
@@ -38,124 +39,287 @@ public class Main {
 			
 				case 1:
 					
-				System.out.println("Escolha o local da sua ocorrencia: ");
-
-				Local localizacao = gestorLocais.addLocalizacao(scanner);
-
-				if (localizacao == null) continue;
-
-				String localString = localizacao.toString();
-				
-				
-				System.out.print("Titulo: ");
-				String titulo = scanner.nextLine();
-				
-				System.out.print("Descrição: ");
-				String descricao = scanner.nextLine();
-				
-				System.out.print("Prioridade: ");
-				String prioridade = scanner.nextLine();
-				
-				System.out.println("Departamento: ");
-				System.out.println("1 - Departamento de TI");
-				System.out.println("2 - Secretaria");
-				System.out.println("3 - Equipe de limpeza");
-				System.out.println("4 - Segurança");
-				System.out.print("Opção:");
-				int opcaoDept = scanner.nextInt();
-				scanner.nextLine();
-				
-				
-				String departamento;
-				switch(opcaoDept) {
-				case 1:
-					departamento = "Departamento de TI";
-					usePrioridade(prioridade, ocorrencias, titulo, descricao, localString, departamento);
+					System.out.println("Username:");
+					String user = scanner.nextLine();
+					
+					System.out.println("Password:");
+					String pass = scanner.nextLine();
+					
+					Utilizador encontrado = null;
+					
+					for(Utilizador u : utilizadores) {
+						if(u.getUsername().equals(user) && u.getPassword().equals(pass)){
+							encontrado = u;
+							break;
+						}
+					}
+					
+					if(encontrado != null) {
+						System.out.println("Login efetuado com sucesso!");
+						menuUtilizador(ocorrencias);
+					}else{
+						System.out.println("Credenciais inválidas.");
+					}
+					
 					break;
-				case 2:
-					departamento = "Secretaria";
-					usePrioridade(prioridade, ocorrencias, titulo, descricao, localString, departamento);
-					break;
-				case 3:
-					departamento = "Equipe de limpeza";
-					usePrioridade(prioridade, ocorrencias, titulo, descricao, localString, departamento);
-					break;
-				case 4:
-					departamento = "Segurança";
-					usePrioridade(prioridade, ocorrencias, titulo, descricao, localString, departamento);
-					break;
-				default:
-					System.out.println("Opção inválida.");
-					continue;
-				}
-
-				// Depois de registar conforme prioridade, volta ao menu
-				break;
 
 			case 2:
 				
-				/*System.out.print("Código a procurar:");
-				String cod = scanner.nextLine();
+				System.out.println("Username:");
+				String adminUser = scanner.nextLine();
 				
-				Ocorrencia encontrada = gestor.procurarOcorrencia(cod);
+				System.out.println("Password:");
+				String adminPass = scanner.nextLine();
 				
-				if(encontrada != null) {
-					System.out.print(encontrada);
-					
-				}else {
-					System.out.print("Ocorrencia não encontrada.");
+				Utilizador admin = null;
+				
+				for(Utilizador u : utilizadores){
+					if(u.getUsername().equals(adminUser) && u.getPassword().equals(adminPass)) {
+						admin = u;
+						break;
+					}
 				}
-				break;*/
 				
-				System.out.print("Código a procurar: ");
+				if(admin != null) {
+					System.out.println("Login de administrador efetuado com sucesso!");
+					menuAdministrador(ocorrencias);
+				}else {
+					System.out.println("Credenciais inválidas");
+				}
+				
+				break;
+				
+			case 3:
+				
+				System.out.println("Novo username:");
+				String novoUser = scanner.nextLine();
+				
+				System.out.println("Nova password:");
+				String novaPass = scanner.nextLine();
+				
+				utilizadores.add(new Utilizador(novoUser,novaPass));
+				
+				System.out.println("Conta criada com sucesso!");
+				
+				break;
+	
+			case 0:
+				System.out.println("Programa terminado.");
+				break;
+				
+			default:
+				
+					System.out.println("opção inválida.");
+			
+			}
+		}while(opcao!=0);
+	}
+	
+	public static void menuUtilizador(Gestor ocorrencias) {
+		
+		int opcao;
+		
+		do {
+			
+			System.out.println("---MENU UTILIZADOR---");
+			System.out.println("1 - Registrar Ocorrência");
+			System.out.println("2 - Procurar ocorrência");
+			System.out.println("0 - Logout");
+			
+			System.out.println("Opção:");
+			
+			opcao=scanner.nextInt();
+			scanner.nextInt();
+			
+			switch(opcao) {
+			
+			case 1:
+				
+				System.out.println("Escolha o local da sua ocorrência:");
+				
+				Local localizacao = gestorLocais.addLocalizacao(scanner);
+			
+				if(localizacao == null)
+					continue;
+			
+				String localString = localizacao.toString();
+				
+				System.out.println("Titulo:");
+				String titulo = scanner.nextLine();
+				
+				System.out.println("Descrição:");
+				String descricao = scanner.nextLine();
+				
+				System.out.print("Prioridade(Alta ou Baixa):");
+				String prioridade = scanner.nextLine();
+				
+				System.out.println("Departamento:");
+				
+				System.out.println("Departamento:");
+                System.out.println("1 - Departamento de TI");
+                System.out.println("2 - Secretaria");
+                System.out.println("3 - Equipa de limpeza");
+                System.out.println("4 - Segurança");
+                
+                int opDep = scanner.nextInt();
+                scanner.nextLine();
+                
+                String departamento = "";
+                
+                switch(opDep) {
+                
+                case 1:
+                	departamento = "Departamento de TI";
+                	break;
+                	
+                case 2:
+                	departamento = "Secretaria";
+                	break;
+                	
+                case 3:
+                	departamento = "Equipa de limpeza";
+                	break;
+                	
+                case 4:
+                	departamento = "Segurança";
+                	
+                default:
+                	System.out.println("Opção inválida.");
+                	continue;
+                }
+                
+				break;
+				
+			case 2:
+				
+				System.out.println("Código a procurar:");
+				
 				String cod = scanner.nextLine();
-				Boolean encontrado = false;
 				
-				for (Ocorrencia o : ocorrencias.getOcorrencias()) {
+				boolean encontrado = false;
+				
+				for(Ocorrencia o : ocorrencias.getOcorrencias()) {
 					if(o.getCodigo().equalsIgnoreCase(cod)) {
 						o.printOcorrencia();
 						encontrado = true;
 						break;
 					}
 				}
-				if(encontrado == false) {
-					System.out.println("A ocorrência com o código " + cod + " não existe!");
+				
+				if(!encontrado) {
+					System.out.println("A ocorrência com o código" + cod + "não existe.");
 				}
-				break;
-
-			case 3:
-				// Listar pendentes (Aberta + Em Atraso)
-				ocorrencias.listarPendentes();
+				
 				break;
 				
-			case 4:
+			case 0:
+				System.out.println("Logout efetuado.");
+				break;
 				
-			    System.out.println("Escolha o filtro:");
-			    System.out.println("1 - Abertas");
-			    System.out.println("2 - Em atraso");
-			    System.out.println("3 - Mostrar todas");
-			    int opFiltro = scanner.nextInt();
-			    scanner.nextLine();
-
-				switch(opFiltro) {
-				    case 1: ocorrencias.imprimirPorFiltro("Aberta"); break;
-				    case 2: ocorrencias.imprimirPorFiltro("Em atraso"); break;
-				    case 3: ocorrencias.imprimirPorFiltro("Todas"); break;
-				    default: System.out.println("Opção inválida.");
-				}
-			    break;
-					
-					}
-			
+			default:
+				System.out.println("Opção inválida.");
 				
-				}while(opcao !=0);
 			}
+		}while(opcao != 0);
+	}
+	
+	public static void menuAdministrador(Gestor ocorrencias) {
+		
+		int opcao;
+		
+		do {
+			
+			System.out.println("---MENU ADMINISTRADOR---");
+	        System.out.println("1 - Procurar ocorrência");
+	        System.out.println("2 - Listar pendentes");
+	        System.out.println("3 - Filtrar por estado");
+	        System.out.println("0 - Logout");
+			
+			System.out.print("Opção:");
+			
+			opcao = scanner.nextInt();
+			scanner.nextLine();
+			
+			switch(opcao) {
+			
+			case 1:
+				
+				System.out.println("Código a procurar:");
+				
+				String cod = scanner.nextLine();
+				
+				boolean encontrado = false;
+				
+				for(Ocorrencia o : ocorrencias.getOcorrencias()) {
+					if(o.getCodigo().equalsIgnoreCase(cod)) {
+						o.printOcorrencia();
+						encontrado = true;
+						break;
+					}
+				}
+				
+				if(!encontrado) {
+					System.out.println("A ocorrência com o código" + cod + "não existe.");
+				}
+				
+				break;
+			
+			case 2:
+				
+				ocorrencias.listarPendentes();
+				
+			case 3:
+				
+				System.out.println("1 - Abertas");
+				System.out.println("2 - Em atraso");
+				System.out.print("3 - Todas");
+				
+				int filtro = scanner.nextInt();
+				scanner.nextLine();
+				
+				switch(filtro) {
+				
+				case 1:
+					
+					ocorrencias.imprimirPorFiltro("Aberta");
+					break;
+					
+				case 2:
+					
+					ocorrencias.imprimirPorFiltro("Em atraso");
+					break;
+				
+				case 3:
+					
+					ocorrencias.imprimirPorFiltro("Todas");
+					break;
+					
+				default:
+					
+					System.out.println("Opção inválida.");
+				
+			}
+			
+			break;
+			
+			case 0:
+				
+				System.out.println("Logout efetuado.");
+				break;
+				
+			default:
+				
+				System.out.println("Opção inválida.");
+			
+			}
+		}while(opcao != 0);
+	}
 	
 		public static void main(String [] args) {
 			
 			Gestor ocorrencias = new Gestor();
 			interfaceSistema();
-			menu(ocorrencias);
+			menuInicial(ocorrencias);
 		}
 		
 		public static void usePrioridade(String prioridade, Gestor ocorrencias, String titulo, String descricao, String localString, String departamento) {
@@ -180,5 +344,3 @@ public class Main {
 			
 		}
 	}
-		
-			
