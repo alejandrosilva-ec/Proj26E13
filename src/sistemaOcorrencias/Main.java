@@ -16,6 +16,7 @@ public class Main {
 	
 	static Scanner scanner = new Scanner(System.in);
 	static Gestor gestor = new Gestor();
+	static GestorLocais gestorLocais = new GestorLocais();
 	
 	public static void menu(Gestor ocorrencias) {
 		
@@ -32,59 +33,16 @@ public class Main {
 			
 			switch(opcao) {
 			
-			case 1:
-			
-				System.out.println("Escolha o local da sua ocorrencia:");
-				System.out.println("1-Sala");
-				System.out.println("2-Cantina");
-				System.out.println("3-Parque de estacionamento");
-				System.out.println("4-Biblioteca");
-				
-				System.out.print("Opção:");
-				int opcaoLocal = scanner.nextInt();
-				scanner.nextLine();
-				
-				Local localizacao = null;
-				String localString;
-				
-				switch(opcaoLocal) {
-				
 				case 1:
 					
-					System.out.println("Número da sala:");
-					String numeroSala = scanner.nextLine();
-					
-					localizacao = new Local("Sala", numeroSala);
-					localString = localizacao.toString();
-					
-					break;
-					
-				case 2:
-					
-					localizacao = new Local("Cantina", "");
-					localString = localizacao.toString();
-					
-					break;
-					
-				case 3:
-					
-					localizacao = new Local("Parque de estacionamento","");
-					localString = localizacao.toString();
-					
-					break;
-					
-				case 4:
-					
-					localizacao = new Local("Biblioteca", "");
-					localString = localizacao.toString();
-					
-					break;
-					
-				default:
-					
-					System.out.println("Opção inválida.");
-					continue;
-				}
+				System.out.println("Escolha o local da sua ocorrencia:");
+
+				Local localizacao = gestorLocais.addLocalizacao(scanner);
+
+				if (localizacao == null) continue;
+
+				String localString = localizacao.toString();
+				
 				
 				System.out.print("Titulo:");
 				String titulo = scanner.nextLine();
@@ -95,7 +53,6 @@ public class Main {
 				System.out.print("Prioridade:");
 				String prioridade = scanner.nextLine();
 				
-				
 				System.out.println("Departamento:");
 				System.out.println("1 - Departamento de TI");
 				System.out.println("2 - Secretaria");
@@ -105,17 +62,27 @@ public class Main {
 				int opcaoDept = scanner.nextInt();
 				scanner.nextLine();
 				
+
+				System.out.println("Departamento:");
+				System.out.println("1 - Departamento de TI");
+				System.out.println("2 - Secretaria");
+				System.out.println("3 - Equipe de limpeza");
+				System.out.println("4 - Segurança");
+				System.out.print("Opção:");
+				opcaoDept = scanner.nextInt();
+				scanner.nextLine();
+				
 				String departamento;
 				switch(opcaoDept) {
 				case 1: departamento = "Departamento de TI"; break;
 				case 2: departamento = "Secretaria"; break;
 				case 3: departamento = "Equipe de limpeza"; break;
 				case 4: departamento = "Segurança"; break;
-				
 				default:
 					System.out.println("Opção inválida.");
 					continue;
-			}
+				}
+
 				
 				
 				if(prioridade.equalsIgnoreCase("Baixa")) {
@@ -177,16 +144,17 @@ public class Main {
 					System.out.print("Opção inválida.");
 					
 					}
+			
 				
-					
 				}while(opcao !=0);
 			}
-		
-			public static void main(String [] args) {
-				
-				Gestor ocorrencias = new Gestor();
-				interfaceSistema();
-				menu(ocorrencias);
-			}
+	
+		public static void main(String [] args) {
+			
+			Gestor ocorrencias = new Gestor();
+			interfaceSistema();
+			menu(ocorrencias);
+		}
 	}
+		
 			
