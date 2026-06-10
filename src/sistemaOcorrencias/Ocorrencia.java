@@ -1,11 +1,10 @@
 package sistemaOcorrencias;
-/**
- * This class a superclass that contains the information of every ocorrencia
- * @author Esteban Silva
- */
 
 import java.time.LocalDate;
 
+/**
+ * Superclasse que contém as informações gerais de uma ocorrência.
+ */
 public class Ocorrencia {
 
 	private String codigo;	
@@ -17,18 +16,8 @@ public class Ocorrencia {
 	private String departamento;
 	private LocalDate dataCriacao;
 	private LocalDate dataLimite;
-	/**
-	 * @param codigo the specific code to identify the problem
-	 * @param titulo the name that will represent the problem
-	 * @param descricao the detailed description of the problem by the user
-	 * @param prioridade the level of priority
-	 * @param estado tells if the problem is open, fixed or late
-	 * @param localizacao the specific location provided by the user
-	 * @param departamento the department that will be handling the issue
-	 * @param prazo is the estimated date for this problem to be solved	
-	 */
 	
-	//Constructor ocorrencia
+	// Construtor
 	public Ocorrencia(String codigo, String titulo, String descricao, String prioridade, String estado,
 			String localizacao, String departamento, int prazo) {
 		
@@ -41,107 +30,57 @@ public class Ocorrencia {
 		this.departamento = departamento;
 		dataCriacao = LocalDate.now();
 		dataLimite = dataCriacao.plusDays(prazo);
-		
 	}
-	/**
-	 * @return the codigo
-	 */
-	public String getCodigo() {
-		return codigo;
-	}
-	/**
-	 * @param codigo the codigo to set
-	 */
-	public void setCodigo(String codigo) {
-		this.codigo = codigo;
-	}
-	/**
-	 * @return the titulo
-	 */
-	public String getTitulo() {
-		return titulo;
-	}
-	/**
-	 * @param titulo the titulo to set
-	 */
-	public void setTitulo(String titulo) {
-		this.titulo = titulo;
-	}
-	/**
-	 * @return the descricao
-	 */
-	public String getDescricao() {
-		return descricao;
-	}
-	/**
-	 * @param descricao the descricao to set
-	 */
-	public void setDescricao(String descricao) {
-		this.descricao = descricao;
-	}
-	/**
-	 * @return the prioridade
-	 */
-	public String getPrioridade() {
-		return prioridade;
-	}
-	/**
-	 * @param prioridade the prioridade to set
-	 */
-	public void setPrioridade(String prioridade) {
-		this.prioridade = prioridade;
-	}
-	/**
-	 * @return the estado
-	 */
-	public String getEstado() {
-		return estado;
-	}
-	/**
-	 * @param estado the estado to set
-	 */
-	public void setEstado(String estado) {
-		this.estado = estado;
-	}
-	/**
-	 * @return the departamento
-	 */
-	public String getDepartamento() {
-		return departamento;
-	}
-	/**
-	 * @param departamento the departamento to set
-	 */
-	public void setDepartamento(String departamento) {
-		this.departamento = departamento;
-	}
-	/**
-	 * @return the localizacao
-	 */
-	public String getLocalizacao() {
-		return localizacao;
-	}
-	/**
-	 * @return the dataCriacao
-	 */
-	public LocalDate getDataCriacao() {
-		return dataCriacao;
-	}
-	/**
-	 * @return the dataLimite
-	 */
-	public LocalDate getDataLimite() {
-		return dataLimite;
-	}
+	
+	public String getCodigo() { 
+		return codigo; }
+	
+	public void setCodigo(String codigo) { 
+		this.codigo = codigo; }
+	
+	public String getTitulo() { 
+		return titulo; }
+	
+	public void setTitulo(String titulo) { 
+		this.titulo = titulo; }
+	
+	public String getDescricao() { 
+		return descricao; }
+	
+	public void setDescricao(String descricao) { 
+		this.descricao = descricao; }
+	
+	public String getPrioridade() { 
+		return prioridade; }
+	
+	public void setPrioridade(String prioridade) { 
+		this.prioridade = prioridade; }
+	
+	public String getEstado() { 
+		return estado; }
+	
+	public void setEstado(String estado) { 
+		this.estado = estado; }
+	
+	public String getDepartamento() { 
+		return departamento; }
+	
+	public void setDepartamento(String departamento) { 
+		this.departamento = departamento; }
+	
+	public String getLocalizacao() { 
+		return localizacao; }
+	
+	public LocalDate getDataCriacao() { 
+		return dataCriacao; }
+	
+	public LocalDate getDataLimite() { 
+		return dataLimite; }
 	
 	
 	public void printOcorrencia() {
-		System.out.println("\nCodigo: " + codigo + "\nTitulo: " + titulo + "\nDescrição: " + descricao + "\nPrioridade: " + prioridade + "\nEstado: " + estado + "\nLocalização: " + localizacao + "\nPrioridade: " + prioridade + "\nPrazo: " + dataLimite);
+		System.out.println("\nCodigo: " + codigo + "\nTitulo: " + titulo + "\nDescrição: " + descricao 
+				+ "\nDepartamento: " + departamento + "\nEstado: " + estado 
+				+ "\nLocalização: " + localizacao + "\nPrioridade: " + prioridade + "\nPrazo: " + dataLimite);
 	}
-	
-	
-	
-	
-	
 }
-

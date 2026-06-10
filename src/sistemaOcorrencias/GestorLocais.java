@@ -7,19 +7,10 @@ import java.util.Map;
 import java.util.Scanner;
 
 /**
- * Gere os locais disponíveis no sistema, baseados no mapeamento de espaços do ficheiro Excel.
- *
- * Estrutura de dados:
- *   Bloco → Piso → Lista de espaços (Local)
- *
- * Blocos disponíveis:
- *   1. Edifício Principal  (Pisos 1-5 + Geral)
- *   2. São Tomé            (Piso Único)
- *   3. Parque de Estacionamento 1 (Pisos 1 e 3)
+ * Gere os locais disponíveis no sistema.
  */
 public class GestorLocais {
 
-    // Mapa: Bloco → Piso → Lista de Locais
     private Map<String, Map<String, List<Local>>> mapa;
 
     public GestorLocais() {
@@ -27,12 +18,10 @@ public class GestorLocais {
         carregarLocais();
     }
 
-    /**
-     * Carrega todos os locais com base no mapeamento do ficheiro "Espaços.xlsx".
-     */
     private void carregarLocais() {
-
-        // ── Edifício Principal ────────────────────────────────────────────────
+    	
+        // Edifício Principal
+    	
         String blocoP = "Edifício Principal";
         addLocal(blocoP, "Piso 1", "Sala 101", "Sala de Aula");
         addLocal(blocoP, "Piso 1", "Sala 102", "Sala de Aula");
@@ -140,22 +129,26 @@ public class GestorLocais {
 
         addLocal(blocoP, "Geral", "Cantina", "Serviços");
 
-        // ── São Tomé 
+        //São Tomé 
+        
         String blocoST = "São Tomé";
         addLocal(blocoST, "Piso Único", "Sala 754", "Sala de Aula");
         addLocal(blocoST, "Piso Único", "Sala 755", "Sala de Aula");
         addLocal(blocoST, "Piso Único", "Sala 756", "Sala de Aula");
         addLocal(blocoST, "Piso Único", "Sala 757", "Sala de Aula");
 
-        // ── Parque de Estacionamento 1 
+        //Parque de Estacionamento 1 
+        
         String blocoParque = "Parque de Estacionamento 1";
         addLocal(blocoParque, "Piso 1", "", "Estacionamento");
         addLocal(blocoParque, "Piso 3", "", "Estacionamento");
+
+        //Parque de Estacionamento 2
+        
+        String blocoParque2 = "Parque de Estacionamento 2 (Posterior)";
+        addLocal(blocoParque2, "Piso Único", "", "Estacionamento");
     }
 
-    /**
-     * Adiciona um local ao mapa interno.
-     */
     private void addLocal(String bloco, String piso, String espaco, String tipo) {
         mapa.computeIfAbsent(bloco, k -> new LinkedHashMap<>())
             .computeIfAbsent(piso,  k -> new ArrayList<>())
@@ -163,35 +156,43 @@ public class GestorLocais {
     }
 
     /**
-     * Guia o utilizador na seleção de um local, apresentando os blocos,
-     * depois os pisos e depois os espaços disponíveis de forma interativa.
-     *
-     * @param scanner Scanner partilhado com o Main
-     * @return o Local selecionado, ou null se a opção for inválida
+     * Permite ao Administrador adicionar novos locais dinamicamente no mapa
      */
-    public Local addLocalizacao(Scanner scanner) {
+    public void adicionarNovoLocal(String bloco, String piso, String espaco, String tipo) {
+        addLocal(bloco, piso, espaco, tipo);
+    }
 
-        // 1. Selecionar bloco
+    /**
+     * Gera um link simulado de QR Code baseado nos atributos do local
+     */
+    public String gerarLinkQR(Local local) {
+        String b = local.getBloco().replace(" ", "_");
+        String p = local.getPiso().replace(" ", "_");
+        String e = local.getEspaco().isEmpty() ? "Geral" : local.getEspaco().replace(" ", "_");
+        
+        return "www." + b + "_" + p + "_" + e + ".com";
+    }
+
+    public Local addLocalizacao(Scanner scanner) {
         List<String> blocos = new ArrayList<>(mapa.keySet());
-        System.out.println("\nBlocos disponíveis:");
+        System.out.println("\n--- Blocos disponíveis ---");
         for (int i = 0; i < blocos.size(); i++) {
             System.out.println((i + 1) + " - " + blocos.get(i));
         }
         System.out.print("Opção: ");
         int opcaoBloco = scanner.nextInt();
-        scanner.nextLine();
+        scanner.nextLine(); // Medida de robustez: limpar buffer
 
         if (opcaoBloco < 1 || opcaoBloco > blocos.size()) {
-            System.out.println("Bloco inválido.");
+            System.out.println("[ERRO] Bloco inválido.");
             return null;
         }
 
         String blocoEscolhido = blocos.get(opcaoBloco - 1);
         Map<String, List<Local>> pisos = mapa.get(blocoEscolhido);
 
-        // 2. Selecionar piso
         List<String> listaPisos = new ArrayList<>(pisos.keySet());
-        System.out.println("\nPisos disponíveis em " + blocoEscolhido + ":");
+        System.out.println("\n--- Pisos disponíveis em " + blocoEscolhido + " ---");
         for (int i = 0; i < listaPisos.size(); i++) {
             System.out.println((i + 1) + " - " + listaPisos.get(i));
         }
@@ -200,21 +201,20 @@ public class GestorLocais {
         scanner.nextLine();
 
         if (opcaoPiso < 1 || opcaoPiso > listaPisos.size()) {
-            System.out.println("Piso inválido.");
+            System.out.println("[ERRO] Piso inválido.");
             return null;
         }
 
         String pisoEscolhido = listaPisos.get(opcaoPiso - 1);
         List<Local> espacos = pisos.get(pisoEscolhido);
 
-        // Para Estacionamento não há seleção de espaço individual
+        // Tratamento especial para os Parques de Estacionamento (sem salas individuais)
         if (espacos.size() == 1 && espacos.get(0).getEspaco().isEmpty()) {
-            System.out.println("Local selecionado: " + espacos.get(0));
+            System.out.println("[OK] Local selecionado: " + espacos.get(0));
             return espacos.get(0);
         }
 
-        // 3. Selecionar espaço
-        System.out.println("\nEspaços disponíveis em " + pisoEscolhido + ":");
+        System.out.println("\n--- Espaços disponíveis em " + pisoEscolhido + " ---");
         for (int i = 0; i < espacos.size(); i++) {
             System.out.println((i + 1) + " - " + espacos.get(i).getEspaco() + " (" + espacos.get(i).getTipo() + ")");
         }
@@ -223,12 +223,12 @@ public class GestorLocais {
         scanner.nextLine();
 
         if (opcaoEspaco < 1 || opcaoEspaco > espacos.size()) {
-            System.out.println("Espaço inválido.");
+            System.out.println("[ERRO] Espaço inválido.");
             return null;
         }
 
         Local selecionado = espacos.get(opcaoEspaco - 1);
-        System.out.println("Local selecionado: " + selecionado);
+        System.out.println("[OK] Local selecionado: " + selecionado);
         return selecionado;
     }
 }

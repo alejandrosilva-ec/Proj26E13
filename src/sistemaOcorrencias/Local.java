@@ -1,10 +1,9 @@
-/**
- * Representa um espaço físico do sistema, baseado no mapeamento de espaços do ficheiro Excel.
- * Cada local tem um bloco, piso, nome do espaço e tipo.
- */
-
 package sistemaOcorrencias;
 
+/**
+ * Representa um espaço físico do sistema
+ * Os atributos são imutáveis para proteger a estrutura física
+ */
 public class Local {
 
     private String bloco;
@@ -19,7 +18,7 @@ public class Local {
         this.tipo   = tipo;
     }
 
-    // Construtor de compatibilidade com código legado (tipo + numeroSala)
+    // Construtor de compatibilidade com código legado
     public Local(String tipo, String numeroSala) {
         this.bloco  = "Edifício Principal";
         this.piso   = "";
